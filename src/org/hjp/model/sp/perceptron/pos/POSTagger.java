@@ -6,24 +6,22 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class POSTagger {
-	
+
 	public static ArrayList alpha = new ArrayList();
 	public static ArrayList sentVec = new ArrayList();
-	
+
 	@SuppressWarnings("static-access")
 	public static void main(String[] args) {
 		String trainFile = "/Users/hjp/Workshop/Model/perceptron/trial/train.txt";
 		POSFeatureVector posfv = new POSFeatureVector();
 		POSFeatureVector.featureExtraction(trainFile);
-		//initialAlpha(posfv.featureList.size());
+		// initialAlpha(posfv.featureList.size());
 		System.out.println(posfv.featureList.size());
 		System.out.println(posfv.posList);
 		trainModel(trainFile);
-		
-		
-		
+
 	}
-	
+
 	public static void trainModel(String trainFile) {
 		if (trainFile.endsWith(".txt")) {
 			BufferedReader in;
@@ -51,25 +49,24 @@ public class POSTagger {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
-	
+
 	public static void updateAlpha(String[] words, String[] goldtag) {
 		Hashtable<String, Double> sequence = new Hashtable<String, Double>();
-		for(int i = 1; i< words.length; i++)
+		for (int i = 1; i < words.length; i++)
 			System.out.println(words[i] + "\t" + goldtag[i]);
 		System.out.println("0:" + words[0]);
-		
-		for(int i = 1; i < words.length; i++) {
-			
+
+		for (int i = 1; i < words.length; i++) {
+
 		}
-		
-		
+
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public static void initialAlpha(int dim) {
-		for(int i = 0; i < dim; i++) {
+		for (int i = 0; i < dim; i++) {
 			alpha.add(0);
 			sentVec.add(0);
 		}

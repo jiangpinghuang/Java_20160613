@@ -9,7 +9,7 @@ import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 public class ModifyPDFTitle {
 
 	public static void main(String[] args) {
-		String dirPath = "G:\\Downloads\\MyThunder\\Thunder\\pdf";
+		String dirPath = "/Users/hjp/Downloads/";
 		listFile(dirPath);
 
 	}
@@ -45,8 +45,8 @@ public class ModifyPDFTitle {
 		PDDocumentInformation info = doc.getDocumentInformation();
 		String title = info.getTitle();
 		if (title != null) {
-			title = title.replace("?", "").replace("\"", "").replace("*", "")
-					.replace(":", "").replace("  ", "").replace("/", " ");
+			title = title.replace("?", "").replace("\"", "").replace("*", "").replace(":", "").replace("  ", "")
+					.replace("/", " ");
 			try {
 				doc.close();
 			} catch (IOException e) {

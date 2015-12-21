@@ -32,9 +32,10 @@ public class FeatureVector {
 	public static int sentNum = 0;
 
 	public static void maintest(String args) {
-		//if (args.length == 0)
-		//	args = new String[] { "/Users/hjp/Workshop/Model/perceptron/train/" };
-		
+		// if (args.length == 0)
+		// args = new String[] { "/Users/hjp/Workshop/Model/perceptron/train/"
+		// };
+
 		long start = System.currentTimeMillis();
 		listFile(args);
 

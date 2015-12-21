@@ -67,8 +67,7 @@ public class FileHandler {
 	public static void writeFile(String content) {
 		String filePath = "G:\\Downloads\\MyStudio\\WorkShops\\coling\\corpus\\dev.data";
 		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter(filePath,
-					true));
+			BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true));
 			writer.write(content);
 			writer.flush();
 			writer.close();

@@ -184,7 +184,7 @@ public class POSFeatureVector {
 			}
 		}
 	}
-	
+
 	public static void writeFile(String content) {
 		String filePath = "/Users/hjp/Workshop/Model/perceptron/trial/model";
 		try {

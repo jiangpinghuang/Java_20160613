@@ -18,14 +18,14 @@ public class FeatureExtraction {
 	public static int sentNum = 0;
 	public static int sentCount = 0;
 	public static int indexNum = 0;
-	
+
 	public static int value = 3;
 
 	public static String featVec = "";
-	
+
 	public static String featureFilePath = "/Users/hjp/Workshop/Model/perceptron/data/ftrain" + value + ".txt";
 	public static String tagFilePath = "/Users/hjp/Workshop/Model/perceptron/data/gtrain" + value + ".txt";
-	
+
 	public static String featureTestFilePath = "/Users/hjp/Workshop/Model/perceptron/data/ftest" + value + ".txt";
 	public static String tagTestFilePath = "/Users/hjp/Workshop/Model/perceptron/data/gtest" + value + ".txt";
 
@@ -50,15 +50,15 @@ public class FeatureExtraction {
 
 		indexFeature(filePath);
 		System.out.println("Sent: " + sentCount);
-		
-		
+
 		String testFile = "/Users/hjp/Workshop/Model/perceptron/data/test.txt";
 		indexTestFeature(testFile);
 		long end = System.currentTimeMillis();
-		
+
 		System.out.println("The time cost is: " + (end - start) / 1000 + " s!");
 
 	}
+
 	////////////////////////////////////////////////////////////////////////////
 	public static void indexTestFeature(String testFile) {
 		if (testFile.endsWith(".txt")) {
@@ -81,7 +81,7 @@ public class FeatureExtraction {
 			}
 		}
 	}
-	
+
 	public static void extractTestFeature(String sent) {
 		System.out.println(sent);
 		String tag = "";
@@ -119,7 +119,7 @@ public class FeatureExtraction {
 		writeTestTagFile(tag + "\r\n");
 		wpTestFeature(words, postag, tagger);
 	}
-	
+
 	public static void writeTestFeatureFile(String content) {
 		String filePath = featureTestFilePath;
 		System.out.println("Writing feature index: " + content);
@@ -147,7 +147,7 @@ public class FeatureExtraction {
 		}
 
 	}
-	
+
 	public static void wpTestFeature(String[] words, String[] postag, String[] tagger) {
 		if (words.length == 1) {
 			featTestVector("w_2", "w_1", words[0], "w1", "w2", "p_2", "p_1", postag[0], "p1", "p2", tagger[0]);
@@ -167,10 +167,10 @@ public class FeatureExtraction {
 		if (words.length == 4) {
 			featTestVector("w_2", "w_1", words[0], words[1], words[2], "p_2", "p_1", postag[0], postag[1], postag[2],
 					tagger[0]);
-			featTestVector("w_1", words[0], words[1], words[2], words[3], "p_1", postag[0], postag[1], postag[2], postag[3],
-					tagger[1]);
-			featTestVector(words[0], words[1], words[2], words[3], "w1", postag[0], postag[1], postag[2], postag[3], "p1",
-					tagger[2]);
+			featTestVector("w_1", words[0], words[1], words[2], words[3], "p_1", postag[0], postag[1], postag[2],
+					postag[3], tagger[1]);
+			featTestVector(words[0], words[1], words[2], words[3], "w1", postag[0], postag[1], postag[2], postag[3],
+					"p1", tagger[2]);
 			featTestVector(words[1], words[2], words[3], "w1", "w2", postag[1], postag[2], postag[3], "p1", "p2",
 					tagger[3]);
 		}
@@ -185,8 +185,8 @@ public class FeatureExtraction {
 							postag[i], postag[i + 1], postag[i + 2], tagger[i]);
 				}
 				if (i == words.length - 2) {
-					featTestVector(words[i - 2], words[i - 1], words[i], words[i + 1], "w1", postag[i - 2], postag[i - 1],
-							postag[i], postag[i + 1], "p1", tagger[i]);
+					featTestVector(words[i - 2], words[i - 1], words[i], words[i + 1], "w1", postag[i - 2],
+							postag[i - 1], postag[i], postag[i + 1], "p1", tagger[i]);
 				}
 				if (i == words.length - 1) {
 					featTestVector(words[i - 2], words[i - 1], words[i], "w1", "w2", postag[i - 2], postag[i - 1],
@@ -199,7 +199,7 @@ public class FeatureExtraction {
 			}
 		}
 	}
-	
+
 	public static void featTestVector(String w_2, String w_1, String w, String w1, String w2, String p_2, String p_1,
 			String p, String p1, String p2, String tag) {
 		featVec = "";
@@ -247,33 +247,33 @@ public class FeatureExtraction {
 		// "#" + tag);
 		// featVec = featVec + "," + findIndexValue(p + "#" + p1 + "#" + p2 +
 		// "#" + tag);
-		if(featVec.length() < 1) {
+		if (featVec.length() < 1) {
 			featVec = testIndex(w + "#" + tag) + featVec;
 			writeTestFeatureFile(featVec);
 		} else {
 			writeTestFeatureFile(featVec);
 		}
-		
+
 	}
-	
+
 	public static void featTestSequence(String feature) {
-		if(featureSet.containsKey(feature)) {
-			if(featureSet.get(feature) > value) {
-				if(featVec.length() < 1) {
+		if (featureSet.containsKey(feature)) {
+			if (featureSet.get(feature) > value) {
+				if (featVec.length() < 1) {
 					featVec = findTestIndexValue(feature) + featVec;
 				} else {
 					featVec = featVec + "," + findTestIndexValue(feature);
 				}
 			}
-			
-		} 
+
+		}
 	}
 
 	public static int testTestIndex(String feature) {
 		int index = 0;
-		if(featureSet.containsKey(feature)) {
+		if (featureSet.containsKey(feature)) {
 			index = featureSet.get(feature);
-		} 
+		}
 		return index;
 	}
 
@@ -286,9 +286,8 @@ public class FeatureExtraction {
 		return index;
 	}
 
-	
 	////////////////////////////////////////////////////////////////////////////
-	
+
 	public static void readFile(String filePath) {
 		if (filePath.endsWith(".txt")) {
 			BufferedReader in;
@@ -345,7 +344,7 @@ public class FeatureExtraction {
 					}
 				}
 			}
-			
+
 		}
 		writeTagFile(tag + "\r\n");
 
@@ -557,7 +556,7 @@ public class FeatureExtraction {
 		// "#" + tag);
 		// featVec = featVec + "," + findIndexValue(p + "#" + p1 + "#" + p2 +
 		// "#" + tag);
-		if(featVec.length() < 1) {
+		if (featVec.length() < 1) {
 			featVec = testIndex(w + "#" + tag) + featVec;
 			writeFeatureFile(featVec);
 		} else {

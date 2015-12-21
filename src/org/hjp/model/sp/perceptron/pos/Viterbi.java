@@ -1,7 +1,7 @@
 package org.hjp.model.sp.perceptron.pos;
 
 public class Viterbi {
-	
+
 	private static String[] states = { "Rainy", "Sunny" };
 	private static String[] observations = { "walk", "shop", "clean" };
 	private static double[] start_probability = { 0.6, 0.4 };
