@@ -16,14 +16,17 @@ public class Evaluation {
 	public static int crI = 0;
 	public static int orI = 0;
 	public static int prI = 0;
-	
+
 	public static int gt = 0;
 	public static int et = 0;
 	public static int ct = 0;
 
+	public static String gstr = "";
+	public static String estr = "";
+
 	public static void main(String[] args) {
-		String goldFile = "/Users/hjp/Workshop/Model/jcsue/lstmcrfs/ten.txt";
-		String evalFile = "/Users/hjp/Workshop/Model/jcsue/lstmcrfs/tens.txt";
+		String goldFile = "/Users/hjp/Workshop/Model/jcsue/lstmcrfs/dev.txt";
+		String evalFile = "/Users/hjp/Workshop/Model/jcsue/lstmcrfs/devs.txt";
 		readFiles(goldFile, evalFile);
 		System.out.println("Segmented measure: ");
 		System.out.println("Correct: " + correct);
@@ -40,6 +43,7 @@ public class Evaluation {
 		System.out.println("Overall: " + orI);
 		System.out.println("Predict: " + prI);
 		resultDisplay(crI, prI, orI);
+		//evalTerm(gstr, estr);
 		System.out.println("Term segmented measure: ");
 		System.out.println("Correct: " + ct);
 		System.out.println("Overall: " + gt);
@@ -70,21 +74,64 @@ public class Evaluation {
 			ereader = new BufferedReader(new FileReader(efile));
 			String gline;
 			String eline;
+			boolean gtflag = false;
+			boolean etflag = false;
 			while ((gline = greader.readLine()) != null && (eline = ereader.readLine()) != null) {
 				if (gline.length() > 0 && eline.length() > 0) {
 					String[] gArr = gline.split("\t");
 					String[] eArr = eline.split(" ");
 					System.out.println(gline + "  " + eline);
+					if (gArr[2].equals("B") && !gtflag) {
+						if(gterm.length() != 0) {
+							gterm = gterm + "、" + gArr[0];
+						} else {
+							gterm = gArr[0];
+						}						
+						gtflag = true;
+					}
+					if (eArr[1].equals("B") && !etflag) {
+						if(eterm.length() != 0) {
+							eterm = eterm + "、" + eArr[0];
+						}
+						else {
+							eterm = eArr[0];
+						}
+						etflag = true;
+					}
+					if (gArr[2].equals("I") && gtflag) {
+						gterm = gterm + gArr[0];
+					}
+					if (eArr[1].equals("I") && etflag) {
+						eterm = eterm + eArr[0];
+					}
+					if (gArr[2].equals("O") && gtflag) {
+						gt = gt + gterm.split("、").length;
+						if (gstr.length() == 0) {
+							gstr = gterm;
+						} else {
+							gstr = gstr + "、" + gterm;
+							System.out.println(gterm);
+						}
+						gtflag = false;
+					}
+					if (eArr[1].equals("O") && etflag) {
+						et = et + eterm.split("、").length;
+						if (estr.length() == 0) {
+							estr = eterm;
+						} else {
+							estr = estr + "、" + eterm;
+							System.out.println(eterm);
+						}
+						etflag = false;
+					}
 					if (gsent.length() == 0 && esent.length() == 0) {
 						gsent = gArr[2];
 						esent = eArr[1];
-						gterm = gArr[0];
-						eterm = eArr[0];
 					} else {
 						gsent = gsent + "\t" + gArr[2];
 						esent = esent + "\t" + eArr[1];
-						gterm = gterm + gArr[0];
-						eterm = eterm + eArr[0];
+						//gterm = gterm + gArr[0];
+						//eterm = eterm + eArr[0];
 					}
 				} else {
 					evalResult(gsent.split("\t"), esent.split("\t"));
@@ -102,15 +149,15 @@ public class Evaluation {
 		}
 
 	}
-	
+
 	public static void evalTerm(String gterm, String eterm) {
+		//System.out.println(gterm);
+		//System.out.println(eterm);
 		String[] gArr = gterm.split("、");
 		String[] eArr = eterm.split("、");
-		gt = gt + gArr.length;
-		et = et + eArr.length;
 		for (int i = 0; i < gArr.length; i++) {
-			for(int j = 0; j < eArr.length; j++) {
-				if(gArr[i].equals(eArr[j])) {
+			for (int j = 0; j < eArr.length; j++) {
+				if (gArr[i].equals(eArr[j])) {
 					ct++;
 				}
 			}
